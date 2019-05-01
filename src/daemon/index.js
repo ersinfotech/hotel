@@ -7,6 +7,7 @@ const log = require('./log')
 const Group = require('./group')
 const Loader = require('./loader')
 const App = require('./app')
+const { handler } = require('proxy-pac-proxy/command-start')
 
 const group = Group()
 const app = App(group)
@@ -33,11 +34,11 @@ exitHook(() => {
 const proxy = httpProxy.createServer({
   target: {
     host: '127.0.0.1',
-    port: conf.port
+    port: conf.port,
   },
   ssl: pem.generate(),
   ws: true,
-  xfwd: true
+  xfwd: true,
 })
 
 // Start HTTPS proxy and HTTP server
@@ -45,4 +46,10 @@ proxy.listen(conf.port + 1)
 
 app.listen(conf.port, conf.host, function() {
   log(`Server listening on port ${conf.host}:${conf.port}`)
+  handler({
+    url: `http://localhost:${conf.port}/proxy.pac`,
+    address: 'localhost',
+    port: conf.port + 2,
+    foreground: true,
+  })
 })

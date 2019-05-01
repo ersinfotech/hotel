@@ -1,5 +1,5 @@
 {
-  "name": "hotel",
+  "name": "@ersinfotech/hotel",
   "version": "0.8.7",
   "description": "Local domains for everyone and more! ",
   "main": "lib",
@@ -58,6 +58,7 @@
     "mkdirp": "^0.5.1",
     "once": "^1.3.2",
     "please-upgrade-node": "^3.0.2",
+    "proxy-pac-proxy": "^1.0.12",
     "pug": "^2.0.0-rc.4",
     "respawn": "^2.4.1",
     "selfsigned": "^1.10.2",
@@ -133,8 +134,6 @@
     "babel": "inherit"
   },
   "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
-    }
+    "hooks": {}
   }
 }

@@ -22,7 +22,7 @@ class Group extends EventEmitter {
 
     this._list = {}
     this._proxy = httpProxy.createProxyServer({
-      xfwd: true
+      xfwd: true,
     })
   }
 
@@ -70,21 +70,19 @@ class Group extends EventEmitter {
 
     log(`Add server ${id}`)
 
-    const HTTP_PROXY = `http://127.0.0.1:${daemonConf.port}/proxy.pac`
+    const HTTP_PROXY = `http://127.0.0.1:${daemonConf.port + 2}`
 
     conf.env = {
       ...process.env,
-      ...conf.env
+      ...conf.env,
     }
 
-    if (conf.httpProxyEnv) {
-      conf.env = {
-        HTTP_PROXY,
-        HTTPS_PROXY: HTTP_PROXY,
-        http_proxy: HTTP_PROXY,
-        https_proxy: HTTP_PROXY,
-        ...conf.env
-      }
+    conf.env = {
+      HTTP_PROXY,
+      HTTPS_PROXY: HTTP_PROXY,
+      http_proxy: HTTP_PROXY,
+      https_proxy: HTTP_PROXY,
+      ...conf.env,
     }
 
     let logFile
@@ -96,7 +94,7 @@ class Group extends EventEmitter {
 
     const mon = respawn(command, {
       ...conf,
-      maxRestarts: 0
+      maxRestarts: 0,
     })
 
     this._list[id] = mon
@@ -186,7 +184,7 @@ class Group extends EventEmitter {
       .map(h => ({
         host: h,
         isStrictMatch: matcher.isMatch(str, h),
-        isWildcardMatch: matcher.isMatch(str, `*.${h}`)
+        isWildcardMatch: matcher.isMatch(str, `*.${h}`),
       }))
 
     const strictMatch = arr.find(h => h.isStrictMatch)
@@ -220,7 +218,7 @@ class Group extends EventEmitter {
 
     req.hotel = {
       id,
-      item
+      item,
     }
 
     next()
@@ -268,7 +266,7 @@ class Group extends EventEmitter {
       {
         target,
         xfwd,
-        changeOrigin
+        changeOrigin,
       },
       err => {
         log('Proxy - Error', err.message)
@@ -277,7 +275,7 @@ class Group extends EventEmitter {
         res.status(502).render(view, {
           err,
           serverReady,
-          server
+          server,
         })
       }
     )

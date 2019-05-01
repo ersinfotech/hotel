@@ -8,7 +8,7 @@ const uninstall = require('../scripts/uninstall')
 
 module.exports = {
   start,
-  stop
+  stop,
 }
 
 // Start daemon in background
@@ -24,7 +24,8 @@ function start() {
   mkdirp.sync(common.hotelDir)
   fs.writeFileSync(common.startupFile, startupFile)
 
-  console.log(`Started http://localhost:${conf.port}`)
+  console.log(`Started hotel service http://localhost:${conf.port}`)
+  console.log(`Started proxy service http://localhost:${conf.port + 2}`)
 }
 
 // Stop daemon
